@@ -8,3 +8,9 @@ toDigits x
 
 toDigitsRev :: Integer -> [Integer]
 toDigitsRev = reverse . toDigits
+
+doubleEveryOther :: [Integer] -> [Integer]
+doubleEveryOther xs = reverse $ f $ reverse xs
+  where f []       = []
+        f [x]      = [x]
+        f (x:y:ys) = x : 2*y : f ys
