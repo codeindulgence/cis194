@@ -5,3 +5,6 @@ toDigits x
   | otherwise = []
   where last = mod x 10
         tail = div x 10
+
+toDigitsRev :: Integer -> [Integer]
+toDigitsRev = reverse . toDigits
