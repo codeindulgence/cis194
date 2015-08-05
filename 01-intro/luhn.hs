@@ -14,3 +14,6 @@ doubleEveryOther xs = reverse $ f $ reverse xs
   where f []       = []
         f [x]      = [x]
         f (x:y:ys) = x : 2*y : f ys
+
+sumDigits :: [Integer] -> Integer
+sumDigits = sum . concatMap toDigits
