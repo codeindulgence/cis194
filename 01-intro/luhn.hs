@@ -17,3 +17,6 @@ doubleEveryOther xs = reverse $ f $ reverse xs
 
 sumDigits :: [Integer] -> Integer
 sumDigits = sum . concatMap toDigits
+
+validate :: Integer -> Bool
+validate n = sumDigits (doubleEveryOther (toDigits n)) `mod` 10 == 0
