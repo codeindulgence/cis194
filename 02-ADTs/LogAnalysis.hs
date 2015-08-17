@@ -10,3 +10,6 @@ parseMessage string = case words string of
   ("W":t:msg)          -> LogMessage Warning (read t) (unwords msg)
   ("E":t:severity:msg) -> LogMessage (Error (read severity)) (read t) (unwords msg)
   _                    -> Unknown string
+
+parse :: String -> [LogMessage]
+parse string = map parseMessage $ lines string
