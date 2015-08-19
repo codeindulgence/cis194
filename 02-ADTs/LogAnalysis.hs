@@ -8,7 +8,7 @@ parseMessage :: String -> LogMessage
 parseMessage string = case words string of
   ("I":t:msg)          -> LogMessage Info (read t) (unwords msg)
   ("W":t:msg)          -> LogMessage Warning (read t) (unwords msg)
-  ("E":t:severity:msg) -> LogMessage (Error (read severity)) (read t) (unwords msg)
+  ("E":severity:t:msg) -> LogMessage (Error (read severity)) (read t) (unwords msg)
   _                    -> Unknown string
 
 parse :: String -> [LogMessage]
@@ -23,6 +23,10 @@ insert _ tree = tree
 
 build :: [LogMessage] -> MessageTree
 build = foldr insert Leaf
+
+inOrder :: MessageTree -> [LogMessage]
+inOrder Leaf = []
+inOrder (Node left root right) = inOrder left ++ [root] ++ inOrder right
 
 testMessages :: [LogMessage]
 testMessages = [
