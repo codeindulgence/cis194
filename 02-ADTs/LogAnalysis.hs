@@ -28,16 +28,27 @@ inOrder :: MessageTree -> [LogMessage]
 inOrder Leaf = []
 inOrder (Node left root right) = inOrder left ++ [root] ++ inOrder right
 
+severe :: LogMessage -> Bool
+severe (LogMessage (Error i) _ _) = i > 50
+severe _ = False
+
+getMessage :: LogMessage -> String
+getMessage (LogMessage _ _ message) = message
+getMessage (Unknown message) = message
+
+whatWentWrong :: [LogMessage] -> [String]
+whatWentWrong = map getMessage . inOrder . build . filter severe
+
 testMessages :: [LogMessage]
 testMessages = [
   LogMessage Info 6 "Completed armadillo processing",
   LogMessage Info 1 "Nothing to report",
   LogMessage Info 4 "Everything normal",
   LogMessage Info 11 "Initiating self-destruct sequence",
-  LogMessage (Error 3) 70 "Way too many pickles",
-  LogMessage (Error 8) 65 "Bad pickle-flange interaction detected",
+  LogMessage (Error 70) 3 "Way too many pickles",
+  LogMessage (Error 65) 8 "Bad pickle-flange interaction detected",
   LogMessage Warning 5 "Flange is due for a check-up",
   LogMessage Info 7 "Out for lunch, back in two time steps",
-  LogMessage (Error 2) 20 "Too many pickles",
+  LogMessage (Error 20) 2 "Too many pickles",
   LogMessage Info 9 "Back from lunch",
-  LogMessage (Error 10) 99 "Flange failed!"]
+  LogMessage (Error 99) 10 "Flange failed!"]
