@@ -23,3 +23,25 @@ localMaxima (x:y:z:xs)
   | y > x && y > z = y : localMaxima (y:z:xs)
   | otherwise      = localMaxima (y:z:xs)
 localMaxima _ = []
+
+-- histogram [1,1,1,5] ==
+--  *
+--  *
+--  *   *
+-- ==========
+-- 0123456789
+
+-- histogram [1,4,5,4,6,6,3,4,2,4,9] ==
+--     *
+--     *
+--     * *
+--  ******  *
+-- ==========
+-- 0123456789
+
+histogram :: [Integer] -> String
+histogram xs = unlines (map (row counts) [most, (most-1)..1]) ++
+               "==========\n" ++ ['0'..'9']
+  where counts = map (\x -> length $ filter (x==) xs) [0..9]
+        most = maximum counts
+        row xs n = [if x >= n then '*' else ' ' | x <- xs]
